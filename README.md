@@ -106,6 +106,7 @@ TiDB is under the Apache 2.0 license. See the [LICENSE](./LICENSE) file for deta
 - [TiDB Online Playground](https://play.tidbcloud.com/?utm_source=github&utm_medium=tidb_readme)
 - TiDB Case Studies: [TiDB Customers](https://www.pingcap.com/customers/?utm_source=github&utm_medium=tidb), [TiDB 事例記事](https://pingcap.co.jp/case-study/?utm_source=github&utm_medium=tidb), [TiDB 中文用户案例](https://cn.pingcap.com/case/?utm_source=github&utm_medium=tidb)
 - [TiDB User Documentation](https://docs.pingcap.com/tidb/stable?utm_source=github&utm_medium=tidb)
+- [TiDB System Parameters Optimization Guide](/docs/tidb-system-parameters-optimization-guide.md)
 - [TiDB Design Docs](/docs/design)
 - [TiDB Release Notes](https://docs.pingcap.com/tidb/dev/release-notes?utm_source=github&utm_medium=tidb)
 - [TiDB Blog](https://www.pingcap.com/blog/?utm_source=github&utm_medium=tidb)
