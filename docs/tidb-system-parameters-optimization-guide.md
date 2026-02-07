@@ -612,7 +612,7 @@ max-backups = 3
 # 性能配置
 [performance]
 max-procs = 0  # 0表示使用所有CPU核心
-server-memory-quota = 0  # 通过系统变量设置
+server-memory-quota = 0  # 0表示通过系统变量tidb_server_memory_limit设置
 txn-local-latches.enabled = false
 tcp-keep-alive = true
 tcp-no-delay = true
