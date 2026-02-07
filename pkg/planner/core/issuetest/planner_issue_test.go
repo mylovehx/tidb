@@ -353,6 +353,7 @@ func TestOnlyFullGroupByOrderByErrorMessage(t *testing.T) {
 	// Test without fix control - should show column name in error
 	err := tk.ExecToErr("select a from t group by a order by b")
 	require.Error(t, err)
+	require.Contains(t, err.Error(), "Expression #1 of ORDER BY")
 	require.Contains(t, err.Error(), "test.t.b")
 	require.NotContains(t, err.Error(), "contains nonaggregated column ''")
 
@@ -360,6 +361,7 @@ func TestOnlyFullGroupByOrderByErrorMessage(t *testing.T) {
 	tk.MustExec("set @@tidb_opt_fix_control='52869:on'")
 	err = tk.ExecToErr("select a from t group by a order by b")
 	require.Error(t, err)
+	require.Contains(t, err.Error(), "Expression #1 of ORDER BY")
 	require.Contains(t, err.Error(), "test.t.b")
 	require.NotContains(t, err.Error(), "contains nonaggregated column ''")
 }
