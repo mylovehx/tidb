@@ -349,13 +349,13 @@ func TestOnlyFullGroupByOrderByErrorMessage(t *testing.T) {
 	tk.MustExec("drop table if exists t")
 	tk.MustExec("create table t(a int, b int)")
 	tk.MustExec("set @@sql_mode = 'ONLY_FULL_GROUP_BY'")
-	
+
 	// Test without fix control - should show column name in error
 	err := tk.ExecToErr("select a from t group by a order by b")
 	require.Error(t, err)
 	require.Contains(t, err.Error(), "test.t.b")
 	require.NotContains(t, err.Error(), "contains nonaggregated column ''")
-	
+
 	// Test with fix control 52869 enabled - should still show column name correctly
 	tk.MustExec("set @@tidb_opt_fix_control='52869:on'")
 	err = tk.ExecToErr("select a from t group by a order by b")
