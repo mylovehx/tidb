@@ -337,3 +337,29 @@ func TestOnlyFullGroupCantFeelUnaryConstant(t *testing.T) {
 		testKit.MustQuery("select a,min(a) from t where -1=a;").Check(testkit.Rows("<nil> <nil>"))
 	})
 }
+
+// TestOnlyFullGroupByOrderByErrorMessage tests that the error message for ORDER BY violations
+// in only_full_group_by mode shows the correct column name instead of an empty string.
+// This test verifies the fix for the issue where setting tidb_opt_fix_control='52869:on'
+// would cause empty column names in error messages.
+func TestOnlyFullGroupByOrderByErrorMessage(t *testing.T) {
+	store := testkit.CreateMockStore(t)
+	tk := testkit.NewTestKit(t, store)
+	tk.MustExec("use test")
+	tk.MustExec("drop table if exists t")
+	tk.MustExec("create table t(a int, b int)")
+	tk.MustExec("set @@sql_mode = 'ONLY_FULL_GROUP_BY'")
+	
+	// Test without fix control - should show column name in error
+	err := tk.ExecToErr("select a from t group by a order by b")
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "test.t.b")
+	require.NotContains(t, err.Error(), "contains nonaggregated column ''")
+	
+	// Test with fix control 52869 enabled - should still show column name correctly
+	tk.MustExec("set @@tidb_opt_fix_control='52869:on'")
+	err = tk.ExecToErr("select a from t group by a order by b")
+	require.Error(t, err)
+	require.Contains(t, err.Error(), "test.t.b")
+	require.NotContains(t, err.Error(), "contains nonaggregated column ''")
+}
